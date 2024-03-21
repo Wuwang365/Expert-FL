@@ -57,7 +57,6 @@ def train_core(net,traget_loader,non_target_loader,cuda,delay,cfg,epoch=None)->n
             loss_1 = sameloss(output_1)
             loss_2 = diffloss(output_2)
             loss = loss_1+loss_2
-            print(loss.item())
             
             optimizer.zero_grad()
             loss.backward()

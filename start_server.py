@@ -52,9 +52,9 @@ from server_global_variable import Server_Status
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--logname',default='log_files',help='log files directiory')
+parser.add_argument('--logname',default='log_files',help='log file name')
 parser.add_argument('--info',default='data/info.json',help='info path')
-parser.add_argument("--parallelnum",default=6,help='parallel number of training clients')
+parser.add_argument("--parallelnum",default=5,help='parallel number of training clients')
 parser.add_argument("--classnum",default=10)
 parser.add_argument("--testroot",default='data/testdata')
 

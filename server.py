@@ -151,25 +151,33 @@ def test(server_status:Server_Status,model=None):
     test_log_core(acc,server_status)
 
 
-from data import VoteDataset
+from data import VoteDataset,TargetDataset
 def test_loader_build_core(server_status:Server_Status):
-    voteset = VoteDataset(server_status.TEST_DATA_PATH)
-    voteloader=torch.utils.data.DataLoader(voteset, batch_size=500, shuffle=True, num_workers=2,drop_last=True)
-    return voteloader
+    loaders = []
+    for i in range(10):
+        dataset = TargetDataset(server_status.TEST_DATA_PATH,i)
+        loader = DataLoader(dataset, batch_size=500, shuffle=True,pin_memory=True)
+        loaders.append(loader)
+    return loaders
 
-def test_core(models:nn.Module,test_loader,cuda):
+def test_core(models:nn.Module,test_loaders,cuda):
     acc_num = 0
     num = 0
-    for batch_num, (label,data) in enumerate(test_loader):
-        data = data.cuda(cuda)
-        result = -torch.ones([500,1])
-        for model in models:
-            model.cuda(cuda)
-            result = torch.cat([result,model(data)[1][:,0:1].cpu()],dim=1)
-        max_index = torch.argmax(result, dim=1)-1
-        acc_num += torch.sum(torch.eq(label, max_index).int()).item()
-        num += label.numel()
+    for label_index,test_loader in enumerate(test_loaders):
+        for batch_num, data in enumerate(test_loader):
+            data = data.cuda(cuda)
+            label = torch.ones(data.shape[0]).cuda(cuda)*label_index
+            result = -torch.ones([500,1])
+            for model in models:
+                model.cuda(cuda)
+                result = torch.cat([result,model(data)[1][:,0:1].cpu()],dim=1)
+            max_index = torch.argmax(result, dim=1)-1
+            label = label.cpu()
+            acc_num += torch.sum(torch.eq(label, max_index).int()).item()
+            num += label.numel()
     acc = acc_num/num
+    for index,model in enumerate(models):
+        torch.save(model,f'models/{index}.pth')
     return acc
 
 def test_log_core(acc,server_status:Server_Status):

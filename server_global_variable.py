@@ -24,7 +24,7 @@ class Server_Status(object):
     MODEL_ENCODE_LIST = []
     DATA_INFO = "./data/info.json"
     TEST_DATA_PATH = "data/data_public"
-    CUDA_LIST = [0,0,0,1,1,1]
+    CUDA_LIST = [0,0,1,1,1]
     ROUND = 0
     MODEL_CACHE = ''
     CLASS_NUM = 10
