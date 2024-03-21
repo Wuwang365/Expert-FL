@@ -6,13 +6,19 @@ import pickle
 import time
 def req_train(serverIp,serverPort,name,dataroot):
     url = f'http://{serverIp}:{serverPort}/server/req_train'
-    resp = pickle.loads(requests.post(url,data=pickle.dumps(name)).content)
+    while(True):
+        try:
+            content = requests.post(url,data=pickle.dumps(name)).content
+            break
+        except:
+            pass
+    resp = pickle.loads(content)
     if resp['train']:
         cuda = resp['cuda']
-        cmd = f'python client.py --name {name} --cuda {cuda} --dataroot {dataroot}'
+        cmd = f'python client.py --name {name} --cuda {cuda} --dataroot {dataroot} --serverport {serverPort}'
         cmd = cmd.split(' ')
         subprocess.run(cmd, shell=False)
-    time.sleep(0.1)
+    time.sleep(1)
 
 
 def url_build_core(serverIp,serverPort):

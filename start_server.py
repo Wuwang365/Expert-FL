@@ -60,6 +60,7 @@ parser.add_argument("--classnum",default=10)
 parser.add_argument("--testroot",default='data/testdata')
 parser.add_argument("--cuda",default=0)
 parser.add_argument("--port",default=8080)
+parser.add_argument("--savepath",help = 'model save path')
 
 from server import test
 

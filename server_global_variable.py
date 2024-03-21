@@ -28,6 +28,7 @@ class Server_Status(object):
     ROUND = 0
     MODEL_CACHE = ''
     CLASS_NUM = 10
+    SAVE_PATH = ''
     
     def __init__(self):
         pass

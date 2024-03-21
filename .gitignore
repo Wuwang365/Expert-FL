@@ -8,3 +8,4 @@ client_cache/*.json
 run_client.sh
 log_files/*
 *.png
+nohup.out

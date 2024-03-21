@@ -75,6 +75,11 @@ def init_info_core(info_path,server_status:Server_Status):
     server_status.DATA_INFO = info
 
 
+def init_savepath_core(savepath,server_status:Server_Status):
+    if not os.path.exists(savepath):
+        os.makedirs(savepath)
+    server_status.SAVE_PATH = savepath
+    
 def init_model_core(server_status:Server_Status):
     model = Model(num_classes=2)
     for i in range(Server_Status.CLASS_NUM):
@@ -132,6 +137,7 @@ def init_cuda_core(cuda,server_status:Server_Status):
 def init_server(args):
     server_status = Server_Status()
     init_info_core(args.info,server_status)
+    init_savepath_core(args.savepath,server_status)
     init_test_root_core(args.testroot,server_status)
     init_parallel_number_core(int(args.parallelnum),server_status)
     init_class_num_core(int(args.classnum),server_status)
@@ -152,7 +158,7 @@ def test(server_status:Server_Status,model=None):
             models.append(pickle.loads(model))
     loader = test_loader_build_core(server_status)
     with torch.no_grad():
-        acc = test_core(models,loader,server_status.CUDA)
+        acc = test_core(models,loader,server_status.CUDA,server_status.SAVE_PATH)
     test_log_core(acc,server_status)
 
 
@@ -165,7 +171,7 @@ def test_loader_build_core(server_status:Server_Status):
         loaders.append(loader)
     return loaders
 
-def test_core(models:nn.Module,test_loaders,cuda):
+def test_core(models:nn.Module,test_loaders,cuda,save_path):
     acc_num = 0
     num = 0
     for label_index,test_loader in enumerate(test_loaders):
@@ -182,7 +188,7 @@ def test_core(models:nn.Module,test_loaders,cuda):
             num += label.numel()
     acc = acc_num/num
     for index,model in enumerate(models):
-        torch.save(model,f'models/{index}.pth')
+        torch.save(model,f'{save_path}/{index}.pth')
     return acc
 
 def test_log_core(acc,server_status:Server_Status):
