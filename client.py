@@ -197,15 +197,15 @@ class Client():
         return req_cfg_core(self.ip,self.port)
     
     def target_loader_build(self):
-        data_path = f"{self.dataroot}/traindata/{self.name}"
+        data_path = f"{self.dataroot}/{self.name}"
         return target_loader_build_core(data_path,self.shot)
     
     def non_target_loader_build(self):
-        data_path = f"{self.dataroot}/traindata/{self.name}"
+        data_path = f"{self.dataroot}/{self.name}"
         return non_target_loader_build_core(data_path,self.shot)
     
     def label_list_build(self):
-        data_path = f"{self.dataroot}/traindata/{self.name}"
+        data_path = f"{self.dataroot}/{self.name}"
         return label_list_build_core(data_path)
     
     def delay_build(self):

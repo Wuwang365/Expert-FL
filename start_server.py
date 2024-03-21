@@ -43,8 +43,9 @@ app.register_blueprint(server_app)
 def register():
     return "hello world"
 
-def run_app():
-    app.run(port=8080,host="0.0.0.0")
+def run_app(port):
+    port = int(port)
+    app.run(port=port,host="0.0.0.0")
     
 import torch
 import os
@@ -57,6 +58,8 @@ parser.add_argument('--info',default='data/info.json',help='info path')
 parser.add_argument("--parallelnum",default=5,help='parallel number of training clients')
 parser.add_argument("--classnum",default=10)
 parser.add_argument("--testroot",default='data/testdata')
+parser.add_argument("--cuda",default=0)
+parser.add_argument("--port",default=8080)
 
 from server import test
 
@@ -74,6 +77,6 @@ if __name__=="__main__":
     t1 = threading.Thread(target=exp_test_wapper,args=(server_status,))
     t1.start()
     with torch.no_grad():
-        run_app()
+        run_app(args.port)
     
     

@@ -24,12 +24,16 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--name')
+parser.add_argument('--dataroot')
+parser.add_argument('--port')
+parser.add_argument('--ip')
+
 
 if __name__=='__main__':
     args = parser.parse_args()
     while(True):
         name = args.name
-        req_train('127.0.0.1','8080',name,'data')
+        req_train(args.ip,args.port,name,args.dataroot)
     
     
 

@@ -125,6 +125,9 @@ def init_test_root_core(path,server_status:Server_Status):
 def init_class_num_core(class_num,server_status:Server_Status):
     server_status.CLASS_NUM = class_num
 
+def init_cuda_core(cuda,server_status:Server_Status):
+    server_status.CUDA = cuda
+    server_status.CUDA_LIST = [server_status.CUDA]*server_status.PARALLEL_NUM
 
 def init_server(args):
     server_status = Server_Status()
@@ -132,9 +135,11 @@ def init_server(args):
     init_test_root_core(args.testroot,server_status)
     init_parallel_number_core(args.parallelnum,server_status)
     init_class_num_core(args.classnum,server_status)
+    init_cuda_core(args.cuda, server_status)
     init_names_core(server_status)
     init_model_core(server_status)
     init_round_names_core(server_status)
+    
 
 
 #########################################################
