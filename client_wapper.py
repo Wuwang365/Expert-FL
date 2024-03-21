@@ -1,6 +1,5 @@
 import requests
 import subprocess
-import pynvml
 
 
 import pickle

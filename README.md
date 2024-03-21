@@ -29,6 +29,6 @@ python start_server.py --logname {} --info {} --parallelnum {} --classnum {} --t
 start client:
 python start_client.py --info {} --port {} --dataroot {}
 ```
-> For above data format, ```--testroot``` should be ```data/testdata```,```--traindata``` should be ```data/traindata``` 
+> For above data format, ```--testroot``` should be ```data/testdata```,```--dataroot``` should be ```data/traindata``` 
 
 > Make sure your ```parallelnum``` will not result in OOM, it reasonable to set as 8 for 3090

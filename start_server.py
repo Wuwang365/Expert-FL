@@ -72,6 +72,10 @@ def exp_test_wapper(server_status):
 if __name__=="__main__":
     server_status = Server_Status()
     args = parser.parse_args()
+    if not os.path.exists('log_files'):
+        os.mkdir('log_files')
+    if not os.path.exists('models'):
+        os.mkdir('models')
     init_server(args)
     set_dictConfig(args.logname)
     t1 = threading.Thread(target=exp_test_wapper,args=(server_status,))
